@@ -35,24 +35,42 @@ export default function Home() {
 
     const handleStart = () => {
         setView("kitty");
-        // Optional: Play sound
+    };
+
+    const getTimeBasedGreeting = () => {
+        const hour = new Date().getHours();
+
+        if (hour >= 6 && hour < 12) {
+            return "Buenos días mi gatita hermosa ☀️ Espero que tengas un día increíble 💖";
+        } else if (hour >= 12 && hour < 20) {
+            return "Buenas tardes mi amorcito 🌤️ Espero que tu día esté yendo genial 💕";
+        } else {
+            return "Buenas noches bebe 🌙 Descansa bien, te amo ✨💖";
+        }
     };
 
     const handleKittyClick = () => {
-        const availableQuotes = phrases.filter(q => !seenQuotes.includes(q));
+        // 10% chance to show time-based greeting
+        const showTimeGreeting = Math.random() < 0.1;
 
-        if (availableQuotes.length === 0) {
-            setCurrentQuote("¡Ya has visto todas mis notitas! Eres increíble. Te amo ❤️ (Reiniciando...)");
-            setSeenQuotes([]);
-            localStorage.setItem("seenQuotes", JSON.stringify([]));
+        if (showTimeGreeting) {
+            setCurrentQuote(getTimeBasedGreeting());
         } else {
-            const randomIndex = Math.floor(Math.random() * availableQuotes.length);
-            const newQuote = availableQuotes[randomIndex];
-            setCurrentQuote(newQuote);
+            const availableQuotes = phrases.filter(q => !seenQuotes.includes(q));
 
-            const newSeen = [...seenQuotes, newQuote];
-            setSeenQuotes(newSeen);
-            localStorage.setItem("seenQuotes", JSON.stringify(newSeen));
+            if (availableQuotes.length === 0) {
+                setCurrentQuote("¡Ya has visto todas mis notitas! Eres increíble. Te amo ❤️ (Reiniciando...)");
+                setSeenQuotes([]);
+                localStorage.setItem("seenQuotes", JSON.stringify([]));
+            } else {
+                const randomIndex = Math.floor(Math.random() * availableQuotes.length);
+                const newQuote = availableQuotes[randomIndex];
+                setCurrentQuote(newQuote);
+
+                const newSeen = [...seenQuotes, newQuote];
+                setSeenQuotes(newSeen);
+                localStorage.setItem("seenQuotes", JSON.stringify(newSeen));
+            }
         }
 
         // Play sound effect
