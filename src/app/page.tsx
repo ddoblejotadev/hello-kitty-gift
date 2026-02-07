@@ -19,6 +19,7 @@ export default function Home() {
     const [clickCount, setClickCount] = useState(0);
     const [showAchievement, setShowAchievement] = useState(false);
     const [achievementText, setAchievementText] = useState("");
+    const [isFirstVisit, setIsFirstVisit] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -33,6 +34,18 @@ export default function Home() {
             setClickCount(parseInt(storedCount));
         }
 
+        // Check if first visit
+        const hasVisited = localStorage.getItem("hasVisited");
+        if (!hasVisited) {
+            setIsFirstVisit(true);
+            localStorage.setItem("hasVisited", "true");
+
+            // Trigger heart rain animation after a short delay
+            setTimeout(() => {
+                createHeartRain();
+            }, 1000);
+        }
+
         // Initialize sound
         setPlayKissSound(() => createKissSound());
 
@@ -44,6 +57,32 @@ export default function Home() {
 
     const handleStart = () => {
         setView("kitty");
+    };
+
+    const createHeartRain = () => {
+        const duration = 3000;
+        const animationEnd = Date.now() + duration;
+
+        const interval = setInterval(() => {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                return;
+            }
+
+            confetti({
+                particleCount: 3,
+                angle: 90,
+                spread: 45,
+                origin: { x: Math.random(), y: 0 },
+                colors: ['#FF69B4', '#FFB6C1', '#FF1493', '#FFC0CB'],
+                shapes: ['circle'],
+                gravity: 0.6,
+                scalar: 1.2,
+                drift: 0.5
+            });
+        }, 100);
     };
 
     const getTimeBasedGreeting = () => {
@@ -225,6 +264,16 @@ export default function Home() {
                         exit={{ opacity: 0, y: -20 }}
                         className="text-center z-10"
                     >
+                        {isFirstVisit && (
+                            <motion.p
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="text-2xl font-quicksand text-hk-accent mb-6 drop-shadow-lg bg-white/80 px-6 py-3 rounded-2xl"
+                            >
+                                ¡Hola mi gatita hermosa! 💖<br />
+                                Este es tu regalo especial ✨
+                            </motion.p>
+                        )}
                         {isBirthdayMode ? (
                             <>
                                 <motion.h1
