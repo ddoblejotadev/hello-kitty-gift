@@ -1,0 +1,16 @@
+{
+    "name": "Para Ti 💖",
+    "short_name": "Para Ti",
+    "description": "Un regalo especial diario",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffd1dc",
+    "theme_color": "#ffd1dc",
+    "icons": [
+        {
+            "src": "/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
