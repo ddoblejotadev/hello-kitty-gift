@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import Background from "@/components/Background";
 import HelloKitty from "@/components/HelloKitty";
 import QuoteCard from "@/components/QuoteCard";
+import BirthdayCake from "@/components/BirthdayCake";
 import { phrases } from "@/data/phrases";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { createKissSound } from "@/utils/sound";
 
 export default function Home() {
-    const [view, setView] = useState<"welcome" | "kitty" | "quote">("welcome");
+    const [view, setView] = useState<"welcome" | "kitty" | "quote" | "cake">("welcome");
     const [currentQuote, setCurrentQuote] = useState("");
     const [seenQuotes, setSeenQuotes] = useState<string[]>([]);
     const [isClient, setIsClient] = useState(false);
@@ -20,6 +21,7 @@ export default function Home() {
     const [showAchievement, setShowAchievement] = useState(false);
     const [achievementText, setAchievementText] = useState("");
     const [isFirstVisit, setIsFirstVisit] = useState(false);
+    const [showCake, setShowCake] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -56,6 +58,15 @@ export default function Home() {
     }, []);
 
     const handleStart = () => {
+        if (isBirthdayMode && !showCake) {
+            setView("cake");
+            setShowCake(true);
+        } else {
+            setView("kitty");
+        }
+    };
+
+    const handleCakeComplete = () => {
         setView("kitty");
     };
 
@@ -320,6 +331,18 @@ export default function Home() {
                         className="z-10"
                     >
                         <HelloKitty onClick={handleKittyClick} />
+                    </motion.div>
+                )}
+
+                {view === "cake" && (
+                    <motion.div
+                        key="cake"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="z-10"
+                    >
+                        <BirthdayCake onComplete={handleCakeComplete} />
                     </motion.div>
                 )}
 
