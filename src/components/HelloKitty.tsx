@@ -12,6 +12,7 @@ export default function HelloKitty({ onClick }: { onClick: () => void }) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", bounce: 0.5 }}
+            style={{ WebkitTapHighlightColor: 'transparent' }}
         >
             <div className="relative w-72 h-72 drop-shadow-2xl filter">
                 <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -48,11 +49,23 @@ export default function HelloKitty({ onClick }: { onClick: () => void }) {
                 </svg>
             </div>
 
-            {/* "Tap Me" Badge */}
+            {/* "Tap Me" Badge - Fixed for Safari */}
             <motion.div
                 className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white/90 px-6 py-2 rounded-full text-hk-hot font-bold shadow-lg border border-hk-pink whitespace-nowrap"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                style={{
+                    WebkitBackfaceVisibility: 'hidden',
+                    backfaceVisibility: 'hidden',
+                    transform: 'translateZ(0)',
+                    willChange: 'transform'
+                }}
+                animate={{
+                    y: [0, -8, 0]
+                }}
+                transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut"
+                }}
             >
                 ✨ ¡Tócame! ✨
             </motion.div>

@@ -16,6 +16,9 @@ body {
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   min-height: 100vh;
+  /* Safari fixes */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -25,6 +28,9 @@ body {
 
   .glass {
     @apply bg-white/30 backdrop-blur-md border border-white/40 shadow-xl;
+    /* Safari backdrop-blur fix */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
 
   .font-pacifico {
@@ -53,4 +59,28 @@ body {
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+/* Safari-specific fixes */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Prevent Safari zoom on input focus */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* Fix for Safari transform glitches */
+.transform,
+[class*="translate"],
+[class*="scale"],
+[class*="rotate"] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
