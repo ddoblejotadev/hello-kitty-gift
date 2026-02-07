@@ -1,4 +1,7 @@
 export const phrases = [
+    // Frase especial de cumpleaños
+    "🎂 ¡FELIZ CUMPLEAÑOS MI GATITA HERMOSA! 🎉 Hoy es tu día especial y quiero que sepas que eres lo más importante en mi vida. Te amo con todo mi corazón 💖✨🎁",
+
     // Frases personalizadas con apodos especiales
     "Mi gatita hermosa, eres mi persona favorita en todo el mundo 🌎💖",
     "Gatita bonita, tu sonrisa ilumina mi día entero ☀️",

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta para mi Gatita 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: 5in 7in;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .card {
+            width: 5in;
+            height: 7in;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .decoration {
+            position: absolute;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .circle1 {
+            top: -80px;
+            right: -80px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #ff69b4 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .circle2 {
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ffb6c1 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: #ff1493;
+            text-align: center;
+            margin-bottom: 10px;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+            line-height: 1.2;
+        }
+        
+        .subtitle-top {
+            font-size: 16px;
+            color: #ff69b4;
+            text-align: center;
+            margin-bottom: 30px;
+            z-index: 1;
+            font-weight: 400;
+            font-style: italic;
+        }
+        
+        .qr-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+            z-index: 1;
+            border: 3px solid #ffb6c1;
+        }
+        
+        .qr-container img {
+            display: block;
+            width: 220px;
+            height: 220px;
+        }
+        
+        .bottom-section {
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .instruction {
+            font-size: 20px;
+            color: #ff1493;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .url-text {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .hearts {
+            position: absolute;
+            font-size: 28px;
+            z-index: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .heart1 { top: 80px; left: 40px; opacity: 0.4; animation-delay: 0s; }
+        .heart2 { top: 120px; right: 50px; opacity: 0.5; animation-delay: 0.5s; }
+        .heart3 { bottom: 140px; left: 60px; opacity: 0.4; animation-delay: 1s; }
+        .heart4 { bottom: 180px; right: 40px; opacity: 0.5; animation-delay: 1.5s; }
+        
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .print-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.6);
+        }
+        
+        .print-button:active {
+            transform: translateY(-1px);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .card {
+                box-shadow: none;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="decoration circle1"></div>
+        <div class="decoration circle2"></div>
+        
+        <div class="hearts heart1">💖</div>
+        <div class="hearts heart2">✨</div>
+        <div class="hearts heart3">🎀</div>
+        <div class="hearts heart4">💕</div>
+        
+        <div style="text-align: center; z-index: 1;">
+            <h1 class="title">Para mi<br>Gatita Hermosa</h1>
+            <p class="subtitle-top">Un regalo especial hecho con amor 💖</p>
+        </div>
+        
+        <div class="qr-container">
+            <img src="public/qr.png" alt="QR Code">
+        </div>
+        
+        <div class="bottom-section">
+            <p class="instruction">Escanea para tu sorpresa ✨</p>
+            <p class="url-text">hello-kitty-gift.vercel.app</p>
+        </div>
+    </div>
+    
+    <button class="print-button" onclick="window.print()">🖨️ Imprimir Tarjeta</button>
+</body>
+</html>

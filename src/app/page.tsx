@@ -15,6 +15,7 @@ export default function Home() {
     const [seenQuotes, setSeenQuotes] = useState<string[]>([]);
     const [isClient, setIsClient] = useState(false);
     const [playKissSound, setPlayKissSound] = useState<(() => void) | null>(null);
+    const [isBirthdayMode, setIsBirthdayMode] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -25,6 +26,11 @@ export default function Home() {
 
         // Initialize sound
         setPlayKissSound(() => createKissSound());
+
+        // Check if today is her birthday (February 7)
+        const today = new Date();
+        const isBirthday = today.getMonth() === 1 && today.getDate() === 7; // Month is 0-indexed
+        setIsBirthdayMode(isBirthday);
     }, []);
 
     const handleStart = () => {
@@ -54,32 +60,72 @@ export default function Home() {
             playKissSound();
         }
 
-        // Trigger confetti explosion with hearts!
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#FF69B4', '#FFD1DC', '#FFF'],
-            shapes: ['circle'] // 'heart' shape sometimes requires extra config/version, keeping safe with colors for now or we can try heart
-        });
+        // Birthday mode: MEGA confetti explosion!
+        if (isBirthdayMode) {
+            // Massive birthday confetti burst
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#FF69B4', '#FFD700', '#FF1493', '#FFF', '#FFB6C1', '#00CED1'],
+                shapes: ['circle', 'square']
+            });
 
-        // Fire a second burst for more effect
-        setTimeout(() => {
+            // Multiple bursts from different angles
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    angle: 60,
+                    spread: 70,
+                    origin: { x: 0, y: 0.7 },
+                    colors: ['#FF69B4', '#FFD700', '#FF1493', '#FFF']
+                });
+                confetti({
+                    particleCount: 150,
+                    angle: 120,
+                    spread: 70,
+                    origin: { x: 1, y: 0.7 },
+                    colors: ['#FF69B4', '#FFD700', '#FF1493', '#FFF']
+                });
+            }, 200);
+
+            // Top burst
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 120,
+                    origin: { y: 0.3 },
+                    colors: ['#FFD700', '#FF69B4', '#00CED1']
+                });
+            }, 400);
+        } else {
+            // Regular confetti explosion with hearts
             confetti({
-                particleCount: 100,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ['#FF69B4', '#FFD1DC', '#FFF']
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#FF69B4', '#FFD1DC', '#FFF'],
+                shapes: ['circle']
             });
-            confetti({
-                particleCount: 100,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#FF69B4', '#FFD1DC', '#FFF']
-            });
-        }, 250);
+
+            // Fire a second burst for more effect
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#FF69B4', '#FFD1DC', '#FFF']
+                });
+                confetti({
+                    particleCount: 100,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#FF69B4', '#FFD1DC', '#FFF']
+                });
+            }, 250);
+        }
 
         setView("quote");
     };
@@ -103,16 +149,39 @@ export default function Home() {
                         exit={{ opacity: 0, y: -20 }}
                         className="text-center z-10"
                     >
-                        <h1 className="font-pacifico text-6xl text-hk-hot mb-8 drop-shadow-md tracking-wide">
-                            Para Ti 💖
-                        </h1>
+                        {isBirthdayMode ? (
+                            <>
+                                <motion.h1
+                                    className="font-pacifico text-7xl text-hk-hot mb-4 drop-shadow-md tracking-wide"
+                                    animate={{
+                                        scale: [1, 1.05, 1],
+                                        rotate: [0, 2, -2, 0]
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                >
+                                    ¡Feliz Cumpleaños! 🎂
+                                </motion.h1>
+                                <p className="text-3xl font-quicksand text-hk-accent mb-8 drop-shadow">
+                                    Mi Gatita Hermosa 💖✨
+                                </p>
+                            </>
+                        ) : (
+                            <h1 className="font-pacifico text-6xl text-hk-hot mb-8 drop-shadow-md tracking-wide">
+                                Para Ti 💖
+                            </h1>
+                        )}
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={handleStart}
-                            className="glass text-hk-accent text-2xl font-quicksand font-bold py-4 px-10 rounded-full border-2 border-white/50 hover:bg-white/50 transition-all"
+                            className={`glass text-2xl font-quicksand font-bold py-4 px-10 rounded-full border-2 border-white/50 hover:bg-white/50 transition-all ${isBirthdayMode ? 'text-yellow-400 animate-pulse' : 'text-hk-accent'
+                                }`}
                         >
-                            Abrir Regalo ✨
+                            {isBirthdayMode ? '🎉 Abrir Regalo de Cumpleaños 🎁' : 'Abrir Regalo ✨'}
                         </motion.button>
                     </motion.div>
                 )}
