@@ -164,21 +164,33 @@
         .print-button:active {
             transform: translateY(-1px);
         }
-        
+        /* Estilos de impresión */
         @media print {
+            @page {
+                margin: 0;
+                size: 5in 7in;
+            }
+            
             body {
                 background: white;
                 padding: 0;
+                margin: 0;
             }
             
             .card {
                 box-shadow: none;
                 margin: 0;
                 border-radius: 0;
+                page-break-after: avoid;
             }
             
             .print-button {
-                display: none;
+                display: none !important;
+            }
+            
+            /* Ocultar encabezados y pies de página del navegador */
+            header, footer {
+                display: none !important;
             }
         }
     </style>
