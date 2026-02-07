@@ -16,12 +16,21 @@ export default function Home() {
     const [isClient, setIsClient] = useState(false);
     const [playKissSound, setPlayKissSound] = useState<(() => void) | null>(null);
     const [isBirthdayMode, setIsBirthdayMode] = useState(false);
+    const [clickCount, setClickCount] = useState(0);
+    const [showAchievement, setShowAchievement] = useState(false);
+    const [achievementText, setAchievementText] = useState("");
 
     useEffect(() => {
         setIsClient(true);
         const stored = localStorage.getItem("seenQuotes");
         if (stored) {
             setSeenQuotes(JSON.parse(stored));
+        }
+
+        // Load click count
+        const storedCount = localStorage.getItem("clickCount");
+        if (storedCount) {
+            setClickCount(parseInt(storedCount));
         }
 
         // Initialize sound
@@ -49,7 +58,33 @@ export default function Home() {
         }
     };
 
+    const checkAchievement = (count: number) => {
+        const achievements: { [key: number]: string } = {
+            1: "🎉 ¡Primera vez! Bienvenida mi gatita hermosa 💖",
+            10: "🏆 ¡10 mensajes de amor! Me encanta que estés aquí 💕",
+            25: "⭐ ¡25 veces! Eres increíble, te amo tanto 🌟",
+            50: "💎 ¡50 mensajes! Medio centenar de amor para ti ✨",
+            100: "👑 ¡100 MENSAJES! Eres mi reina, te adoro completamente 💖👑",
+            200: "🌟 ¡200 veces! Nuestro amor es infinito ♾️💕",
+            365: "🎂 ¡Un año de amor! (365 mensajes) Te amo cada día más 💖",
+        };
+
+        if (achievements[count]) {
+            setAchievementText(achievements[count]);
+            setShowAchievement(true);
+            setTimeout(() => setShowAchievement(false), 4000);
+        }
+    };
+
     const handleKittyClick = () => {
+        // Increment click counter
+        const newCount = clickCount + 1;
+        setClickCount(newCount);
+        localStorage.setItem("clickCount", newCount.toString());
+
+        // Check for achievements
+        checkAchievement(newCount);
+
         // 10% chance to show time-based greeting
         const showTimeGreeting = Math.random() < 0.1;
 
@@ -157,6 +192,29 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden relative">
             <Background />
+
+            {/* Love Counter Display */}
+            <div className="fixed top-4 right-4 z-50 glass px-4 py-2 rounded-full">
+                <p className="text-hk-hot font-quicksand font-bold text-sm">
+                    💕 {clickCount} {clickCount === 1 ? 'vez' : 'veces'}
+                </p>
+            </div>
+
+            {/* Achievement Notification */}
+            <AnimatePresence>
+                {showAchievement && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -50, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -50, scale: 0.8 }}
+                        className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 glass px-6 py-4 rounded-2xl border-2 border-yellow-400 shadow-2xl max-w-sm"
+                    >
+                        <p className="text-xl font-quicksand font-bold text-center text-hk-hot">
+                            {achievementText}
+                        </p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <AnimatePresence mode="wait">
                 {view === "welcome" && (
